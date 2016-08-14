@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     Quote optionOneQuote;
     Quote optionTwoQuote;
     Quote optionThreeQuote;
+    Quote actualQuote;
 
     int quotesDisplayed = 0;
     int correctAnswer = 0;
@@ -76,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void displayQuoteAndOptions(){
-        Quote actualQuote = getQuoteFromList(quotesDisplayed);
+        actualQuote = getQuoteFromList(quotesDisplayed);
         quoteTextView.setText(actualQuote.phrase);
 
         getQuotesFromList();
@@ -86,6 +87,6 @@ public class MainActivity extends AppCompatActivity {
         quotesDisplayed += 1;
         counterTextView.setText(quotesDisplayed + "/10");
     }
-
+    
 
 }
