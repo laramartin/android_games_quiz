@@ -87,6 +87,6 @@ public class MainActivity extends AppCompatActivity {
         quotesDisplayed += 1;
         counterTextView.setText(quotesDisplayed + "/10");
     }
-    
+
 
 }
