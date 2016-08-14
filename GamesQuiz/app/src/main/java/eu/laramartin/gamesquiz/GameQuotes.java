@@ -1,4 +1,4 @@
-package eu.laramartin.videogamequotes;
+package eu.laramartin.gamesquiz;
 
 import java.util.List;
 

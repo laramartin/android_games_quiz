@@ -1,4 +1,4 @@
-package eu.laramartin.videogamequotes;
+package eu.laramartin.gamesquiz;
 
 /**
  * Created by lariki on 6/6/16.
