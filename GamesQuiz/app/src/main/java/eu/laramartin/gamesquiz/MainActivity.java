@@ -2,7 +2,9 @@ package eu.laramartin.gamesquiz;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,6 +15,8 @@ public class MainActivity extends AppCompatActivity {
 
     List<Quote> listOfQuotes = new ArrayList<>();
     ArrayList threeDiffOptions = new ArrayList();
+    ArrayList orderOptions = new ArrayList();
+
     TextView counterTextView;
     TextView quoteTextView;
     TextView optionOneTextView;
@@ -24,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
     Quote actualQuote;
 
     int quotesDisplayed = 0;
-    int correctAnswer = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,19 +40,48 @@ public class MainActivity extends AppCompatActivity {
         optionTwoTextView = (TextView) findViewById(R.id.optionTwo);
         optionThreeTextView = (TextView) findViewById(R.id.optionThree);
 
+
         GameQuotes.initQuotes(listOfQuotes);
         shuffleList(listOfQuotes);
 
         displayQuoteAndOptions();
 
+        optionOneTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // check if correct
+                isOptionChosenCorrect(0);
+                Toast.makeText(MainActivity.this, "opt 1 clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        optionTwoTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // check if correct
+                isOptionChosenCorrect(1);
+                Toast.makeText(MainActivity.this, "opt 2 clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        optionThreeTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // check if correct
+                isOptionChosenCorrect(2);
+                Toast.makeText(MainActivity.this, "opt 3 clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-    private int randomNumber(){
-        Random r = new Random();
-        int length = listOfQuotes.size();
-        int num = r.nextInt(length - 1) + 1;
-        return num;
-    }
+
+
+//    private int randomNumber(){
+//        Random r = new Random();
+//        int length = listOfQuotes.size();
+//        int num = r.nextInt(length - 1) + 1;
+//        return num;
+//    }
 
     private void shuffleList(List items){
         // shuffle existing list and pick 10
@@ -74,6 +106,13 @@ public class MainActivity extends AppCompatActivity {
         optionOneQuote = getQuoteFromList((Integer) threeDiffOptions.get(0));
         optionTwoQuote = getQuoteFromList((Integer) threeDiffOptions.get(1));
         optionThreeQuote = getQuoteFromList((Integer) threeDiffOptions.get(2));
+        addThreeOptionsToList(optionOneQuote, optionTwoQuote, optionThreeQuote);
+    }
+
+    private void addThreeOptionsToList(Quote one, Quote two, Quote three){
+        orderOptions.add(one);
+        orderOptions.add(two);
+        orderOptions.add(three);
     }
 
     private void displayQuoteAndOptions(){
@@ -88,5 +127,38 @@ public class MainActivity extends AppCompatActivity {
         counterTextView.setText(quotesDisplayed + "/10");
     }
 
+    private void isOptionChosenCorrect(int option){
+        if (option == 0) {
+            if (actualQuote.game != optionOneQuote.game) {
+                markOptionChosenAsWrong(optionOneTextView);
+                return;
+            }
+            //return (actualQuote.game == optionOneQuote.game);
+        } else if (option == 1){
+            if (actualQuote.game != optionTwoQuote.game){
+                markOptionChosenAsWrong(optionTwoTextView);
+                return;
+            }
+            //return (actualQuote.game == optionTwoQuote.game);
+        } else if (option == 2){
+            if (actualQuote.game != optionThreeQuote.game){
+                markOptionChosenAsWrong(optionThreeTextView);
+                return;
+            }
+            //return (actualQuote.game == optionThreeQuote.game);
+        }
+        //markOptionChosenAsWrong(option);
+        markOptionChosenAsCorrect(option);
+
+    }
+
+    private void markOptionChosenAsCorrect(int option){
+        Quote correct = (Quote) orderOptions.get(option);
+
+    }
+
+    private void markOptionChosenAsWrong(TextView chosen){
+        chosen.setBackgroundColor(2);
+    }
 
 }
