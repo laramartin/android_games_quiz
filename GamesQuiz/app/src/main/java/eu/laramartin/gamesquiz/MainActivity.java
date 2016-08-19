@@ -46,35 +46,61 @@ public class MainActivity extends AppCompatActivity {
 
         displayQuoteAndOptions();
 
-        optionOneTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // check if correct
-                isOptionChosenCorrect(0);
-                Toast.makeText(MainActivity.this, "opt 1 clicked", Toast.LENGTH_SHORT).show();
-            }
-        });
 
-        optionTwoTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // check if correct
-                isOptionChosenCorrect(1);
-                Toast.makeText(MainActivity.this, "opt 2 clicked", Toast.LENGTH_SHORT).show();
-            }
-        });
+//        optionOneTextView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                // check if correct
+//                isOptionChosenCorrect(0);
+//                Toast.makeText(MainActivity.this, "opt 1 clicked", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//
+//        optionTwoTextView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                // check if correct
+//                isOptionChosenCorrect(1);
+//                Toast.makeText(MainActivity.this, "opt 2 clicked", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//
+//        optionThreeTextView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                // check if correct
+//                isOptionChosenCorrect(2);
+//                Toast.makeText(MainActivity.this, "opt 3 clicked", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+        optionOneTextView.setOnClickListener(choiceOneOnClickListener);
+        optionTwoTextView.setOnClickListener(choiceTwoOnClickListener);
+        optionThreeTextView.setOnClickListener(choiceThreeOnClickListener);
 
-        optionThreeTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // check if correct
-                isOptionChosenCorrect(2);
-                Toast.makeText(MainActivity.this, "opt 3 clicked", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
 
+    final View.OnClickListener choiceOneOnClickListener = new View.OnClickListener() {
+        public void onClick(final View v){
+            isOptionChosenCorrect(0);
+            Toast.makeText(MainActivity.this, "opt 1 clicked", Toast.LENGTH_SHORT).show();
+        }
+    };
+
+    final View.OnClickListener choiceTwoOnClickListener = new View.OnClickListener() {
+        public void onClick(final View v){
+            isOptionChosenCorrect(1);
+            Toast.makeText(MainActivity.this, "opt 2 clicked", Toast.LENGTH_SHORT).show();
+        }
+    };
+
+    final View.OnClickListener choiceThreeOnClickListener = new View.OnClickListener() {
+        public void onClick(final View v){
+            isOptionChosenCorrect(2);
+            Toast.makeText(MainActivity.this, "opt 3 clicked", Toast.LENGTH_SHORT).show();
+        }
+    };
 
 //    private int randomNumber(){
 //        Random r = new Random();
