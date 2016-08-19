@@ -1,11 +1,10 @@
 package eu.laramartin.gamesquiz;
 
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -46,34 +45,6 @@ public class MainActivity extends AppCompatActivity {
 
         displayQuoteAndOptions();
 
-
-//        optionOneTextView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                // check if correct
-//                isOptionChosenCorrect(0);
-//                Toast.makeText(MainActivity.this, "opt 1 clicked", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//
-//        optionTwoTextView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                // check if correct
-//                isOptionChosenCorrect(1);
-//                Toast.makeText(MainActivity.this, "opt 2 clicked", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//
-//        optionThreeTextView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                // check if correct
-//                isOptionChosenCorrect(2);
-//                Toast.makeText(MainActivity.this, "opt 3 clicked", Toast.LENGTH_SHORT).show();
-//            }
-//        });
         optionOneTextView.setOnClickListener(choiceOneOnClickListener);
         optionTwoTextView.setOnClickListener(choiceTwoOnClickListener);
         optionThreeTextView.setOnClickListener(choiceThreeOnClickListener);
@@ -84,21 +55,18 @@ public class MainActivity extends AppCompatActivity {
     final View.OnClickListener choiceOneOnClickListener = new View.OnClickListener() {
         public void onClick(final View v){
             isOptionChosenCorrect(0);
-            Toast.makeText(MainActivity.this, "opt 1 clicked", Toast.LENGTH_SHORT).show();
         }
     };
 
     final View.OnClickListener choiceTwoOnClickListener = new View.OnClickListener() {
         public void onClick(final View v){
             isOptionChosenCorrect(1);
-            Toast.makeText(MainActivity.this, "opt 2 clicked", Toast.LENGTH_SHORT).show();
         }
     };
 
     final View.OnClickListener choiceThreeOnClickListener = new View.OnClickListener() {
         public void onClick(final View v){
             isOptionChosenCorrect(2);
-            Toast.makeText(MainActivity.this, "opt 3 clicked", Toast.LENGTH_SHORT).show();
         }
     };
 
@@ -159,32 +127,31 @@ public class MainActivity extends AppCompatActivity {
                 markOptionChosenAsWrong(optionOneTextView);
                 return;
             }
-            //return (actualQuote.game == optionOneQuote.game);
+            markOptionChosenAsCorrect(optionOneTextView);
         } else if (option == 1){
             if (actualQuote.game != optionTwoQuote.game){
                 markOptionChosenAsWrong(optionTwoTextView);
                 return;
             }
-            //return (actualQuote.game == optionTwoQuote.game);
+            markOptionChosenAsCorrect(optionTwoTextView);
         } else if (option == 2){
             if (actualQuote.game != optionThreeQuote.game){
                 markOptionChosenAsWrong(optionThreeTextView);
                 return;
             }
-            //return (actualQuote.game == optionThreeQuote.game);
+            markOptionChosenAsCorrect(optionThreeTextView);
         }
-        //markOptionChosenAsWrong(option);
-        markOptionChosenAsCorrect(option);
-
     }
 
-    private void markOptionChosenAsCorrect(int option){
-        Quote correct = (Quote) orderOptions.get(option);
+    private void markOptionChosenAsCorrect(TextView chosen){
+        chosen.setBackgroundColor(Color.parseColor("#49C684"));
 
     }
 
     private void markOptionChosenAsWrong(TextView chosen){
-        chosen.setBackgroundColor(2);
+       chosen.setBackgroundColor(Color.parseColor("#F55E7A"));
+
     }
+
 
 }
