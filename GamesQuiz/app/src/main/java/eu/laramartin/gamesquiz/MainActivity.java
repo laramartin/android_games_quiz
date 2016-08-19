@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         optionOneTextView.setOnClickListener(choiceOneOnClickListener);
         optionTwoTextView.setOnClickListener(choiceTwoOnClickListener);
         optionThreeTextView.setOnClickListener(choiceThreeOnClickListener);
+        nextButton.setOnClickListener(nextButtonOnClickListener);
 
     }
 
@@ -79,6 +80,16 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    final View.OnClickListener nextButtonOnClickListener = new View.OnClickListener() {
+        public void onClick(final View v){
+            Toast.makeText(MainActivity.this, "button listensssss!!", Toast.LENGTH_SHORT).show();
+            if (isTurnFinished) {
+                getQuotesFromList();
+                displayQuoteAndOptions();
+            }
+        }
+    };
+
 //    private int randomNumber(){
 //        Random r = new Random();
 //        int length = listOfQuotes.size();
@@ -98,12 +109,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getOptions(){
+        //threeDiffOptions.add(quotesDisplayed);
         threeDiffOptions.add(quotesDisplayed);
-        threeDiffOptions.add(20);
-        threeDiffOptions.add(40);
+        threeDiffOptions.add(20 + quotesDisplayed);
+        threeDiffOptions.add(40 + quotesDisplayed);
     }
 
     private void getQuotesFromList(){
+        if (threeDiffOptions != null){
+            threeDiffOptions.clear();
+        }
         getOptions();
         shuffleList(threeDiffOptions);
         optionOneQuote = getQuoteFromList((Integer) threeDiffOptions.get(0));
@@ -165,15 +180,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkIfGameHasFinished(){
-        if (! isGameFinished){
+        if (isGameFinished){
             Toast.makeText(MainActivity.this, "game ended", Toast.LENGTH_SHORT).show();
-        } else {
+        } else if (isTurnFinished) {
             beginNextTurn();
         }
     }
 
     private void beginNextTurn(){
         makeNextButtonInvisible();
+        getQuotesFromList();
     }
 
     private void makeNextButtonVisible(){
