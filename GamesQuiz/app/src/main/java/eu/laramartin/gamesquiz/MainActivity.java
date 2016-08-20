@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -49,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         GameQuotes.initQuotes(listOfQuotes);
         shuffleList(listOfQuotes);
 
-        displayQuoteAndOptions();
+        displayQuoteAndAnswers();
 
         optionOneTextView.setOnClickListener(choiceOneOnClickListener);
         optionTwoTextView.setOnClickListener(choiceTwoOnClickListener);
@@ -84,8 +86,8 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(final View v){
             Toast.makeText(MainActivity.this, "button listensssss!!", Toast.LENGTH_SHORT).show();
             if (isTurnFinished) {
-                getQuotesFromList();
-                displayQuoteAndOptions();
+                getThreeQuotesFromListToDisplayAsAnswer();
+                displayQuoteAndAnswers();
             }
         }
     };
@@ -104,26 +106,25 @@ public class MainActivity extends AppCompatActivity {
         //Collections.shuffle(items);
     }
 
-    private Quote getQuoteFromList(int index){
+    private Quote getOneQuoteFromList(int index){
         return listOfQuotes.get(index);
     }
 
     private void getOptions(){
-        //threeDiffOptions.add(quotesDisplayed);
         threeDiffOptions.add(quotesDisplayed);
         threeDiffOptions.add(20 + quotesDisplayed);
         threeDiffOptions.add(40 + quotesDisplayed);
     }
 
-    private void getQuotesFromList(){
+    private void getThreeQuotesFromListToDisplayAsAnswer(){
         if (threeDiffOptions != null){
             threeDiffOptions.clear();
         }
         getOptions();
         shuffleList(threeDiffOptions);
-        optionOneQuote = getQuoteFromList((Integer) threeDiffOptions.get(0));
-        optionTwoQuote = getQuoteFromList((Integer) threeDiffOptions.get(1));
-        optionThreeQuote = getQuoteFromList((Integer) threeDiffOptions.get(2));
+        optionOneQuote = getOneQuoteFromList((Integer) threeDiffOptions.get(0));
+        optionTwoQuote = getOneQuoteFromList((Integer) threeDiffOptions.get(1));
+        optionThreeQuote = getOneQuoteFromList((Integer) threeDiffOptions.get(2));
         addThreeOptionsToList(optionOneQuote, optionTwoQuote, optionThreeQuote);
     }
 
@@ -133,39 +134,75 @@ public class MainActivity extends AppCompatActivity {
         orderOptions.add(three);
     }
 
-    private void displayQuoteAndOptions(){
-        actualQuote = getQuoteFromList(quotesDisplayed);
+    private void displayQuoteAndAnswers(){
+        actualQuote = getOneQuoteFromList(quotesDisplayed);
         quoteTextView.setText(actualQuote.phrase);
 
-        getQuotesFromList();
+        getThreeQuotesFromListToDisplayAsAnswer();
         optionOneTextView.setText(optionOneQuote.game);
         optionTwoTextView.setText(optionTwoQuote.game);
         optionThreeTextView.setText(optionThreeQuote.game);
+//        if (quotesDisplayed == 10){
+//            reset();
+//        }
         quotesDisplayed += 1;
         counterTextView.setText(quotesDisplayed + "/10");
     }
 
-    private void isOptionChosenCorrect(int option){
-        if (option == 0) {
-            if (actualQuote.game != optionOneQuote.game) {
-                markOptionChosenAsWrong(optionOneTextView);
-                return;
-            }
-            markOptionChosenAsCorrect(optionOneTextView);
-        } else if (option == 1){
-            if (actualQuote.game != optionTwoQuote.game){
-                markOptionChosenAsWrong(optionTwoTextView);
-                return;
-            }
-            markOptionChosenAsCorrect(optionTwoTextView);
-        } else if (option == 2){
-            if (actualQuote.game != optionThreeQuote.game){
-                markOptionChosenAsWrong(optionThreeTextView);
-                return;
-            }
-            markOptionChosenAsCorrect(optionThreeTextView);
+    private String getSelectedQuote(int option){
+        String selectedGame = null;
+        if (option == 0){
+            selectedGame = optionOneQuote.game;
+        } else if (option == 1) {
+            selectedGame = optionTwoQuote.game;
+        } else if (option == 2) {
+            selectedGame = optionThreeQuote.game;
         }
+        return selectedGame;
     }
+
+    private TextView getSelectedTextView(int option){
+        TextView selectedTextView = null;
+        if (option == 0){
+            selectedTextView = optionOneTextView;
+        } else if (option == 1){
+            selectedTextView = optionTwoTextView;
+        } else if (option == 2){
+            selectedTextView = optionThreeTextView;
+        }
+        return selectedTextView;
+    }
+
+    private void isOptionChosenCorrect(int option){
+        TextView selectedTextView = getSelectedTextView(option);
+        if (actualQuote.game != getSelectedQuote(option)){
+            markOptionChosenAsWrong(selectedTextView);
+            return;
+        }
+        markOptionChosenAsCorrect(selectedTextView);
+    }
+
+//    private void isOptionChosenCorrect(int option){
+//        if (option == 0) {
+//            if (actualQuote.game != optionOneQuote.game) {
+//                markOptionChosenAsWrong(optionOneTextView);
+//                return;
+//            }
+//            markOptionChosenAsCorrect(optionOneTextView);
+//        } else if (option == 1){
+//            if (actualQuote.game != optionTwoQuote.game){
+//                markOptionChosenAsWrong(optionTwoTextView);
+//                return;
+//            }
+//            markOptionChosenAsCorrect(optionTwoTextView);
+//        } else if (option == 2){
+//            if (actualQuote.game != optionThreeQuote.game){
+//                markOptionChosenAsWrong(optionThreeTextView);
+//                return;
+//            }
+//            markOptionChosenAsCorrect(optionThreeTextView);
+//        }
+//    }
 
     private void markOptionChosenAsCorrect(TextView chosen){
         chosen.setBackgroundColor(Color.parseColor("#49C684"));
@@ -175,6 +212,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void markOptionChosenAsWrong(TextView chosen){
         chosen.setBackgroundColor(Color.parseColor("#F55E7A"));
+        int indexOfCorrectAnswer = orderOptions.indexOf(actualQuote);
+        TextView correctAnswerTextView = getSelectedTextView(indexOfCorrectAnswer);
+        correctAnswerTextView.setBackgroundColor(Color.parseColor("#49C684"));
         makeNextButtonVisible();
         checkIfGameHasFinished();
     }
@@ -189,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void beginNextTurn(){
         makeNextButtonInvisible();
-        getQuotesFromList();
+        getThreeQuotesFromListToDisplayAsAnswer();
     }
 
     private void makeNextButtonVisible(){
