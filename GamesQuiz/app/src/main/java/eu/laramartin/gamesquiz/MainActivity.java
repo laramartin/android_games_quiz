@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         optionTwoTextView = (TextView) findViewById(R.id.optionTwo);
         optionThreeTextView = (TextView) findViewById(R.id.optionThree);
         nextButton = (Button) findViewById(R.id.buttonNext);
+        nextButton.setText(R.string.next);
 
         GameQuotes.initQuotes(listOfQuotes);
         shuffleList(listOfQuotes);
@@ -89,6 +90,8 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(final View v){
             if (isTurnFinished) {
                 beginNextTurn();
+            } else if (isGameFinished) {
+                resetGame();
             }
         }
     };
@@ -114,8 +117,9 @@ public class MainActivity extends AppCompatActivity {
         if (quotesAlreadyDisplayed == 10){
             //reset();
             isGameFinished = true;
-            notDisplayAnswers();
-            finalGameResults();
+            finalGameDisplay();
+//            notDisplayAnswers();
+//            finalGameResults();
             //Toast.makeText(MainActivity.this, "more than 10 turns", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -185,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
     private void markOptionChosenAsCorrect(TextView chosen){
         chosen.setBackgroundColor(Color.parseColor("#49C684"));
         makeNextButtonVisible();
-        checkIfGameHasFinished();
+        checkIfTurnHasFinished();
     }
 
     private void markOptionChosenAsWrong(TextView chosen){
@@ -194,16 +198,27 @@ public class MainActivity extends AppCompatActivity {
         TextView correctAnswerTextView = getSelectedTextView(indexOfCorrectAnswer);
         correctAnswerTextView.setBackgroundColor(Color.parseColor("#49C684"));
         makeNextButtonVisible();
-        checkIfGameHasFinished();
+        checkIfTurnHasFinished();
     }
 
-    private void checkIfGameHasFinished(){
-        if (isGameFinished){
-            Toast.makeText(MainActivity.this, "game ended", Toast.LENGTH_SHORT).show();
-            //return;
-        } else if (isTurnFinished) {
+    private void checkIfTurnHasFinished(){
+//        if (isGameFinished){
+//            Toast.makeText(MainActivity.this, "game ended", Toast.LENGTH_SHORT).show();
+//            finalGameDisplay();
+//            //return;
+//        } else if (isTurnFinished) {
+//            beginNextTurn();
+//        }
+        if (isTurnFinished) {
             beginNextTurn();
         }
+    }
+
+    private void finalGameDisplay(){
+        notDisplayAnswers();
+        finalGameResults();
+        nextButton.setText(R.string.reset);
+        makeNextButtonVisible();
     }
 
     private void beginNextTurn(){
@@ -239,5 +254,18 @@ public class MainActivity extends AppCompatActivity {
         quoteTextView.setText("Correct answers:\n\n" + correctAnswers);
     }
 
-    
+    private void resetGame(){
+        isTurnFinished = false;
+        isGameFinished = false;
+        threeDiffOptions.clear();
+        orderOptions.clear();
+        correctAnswers = 0;
+        quotesAlreadyDisplayed = 0;
+        shuffleList(listOfQuotes);
+        getThreeQuotesFromListToDisplayAsAnswer();
+        displayQuoteAndAnswers();
+        nextButton.setText(R.string.next);
+        makeNextButtonInvisible();
+    }
+
 }
