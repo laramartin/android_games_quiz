@@ -32,7 +32,8 @@ public class MainActivity extends AppCompatActivity {
     boolean isTurnFinished = false;
     boolean isGameFinished = false;
 
-    int quotesDisplayed = 0;
+    int quotesAlreadyDisplayed = 8;
+    int correctAnswers = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
     final View.OnClickListener choiceOneOnClickListener = new View.OnClickListener() {
         public void onClick(final View v){
-            if (! isTurnFinished){
+            if (!isTurnFinished && !isGameFinished){
                 isOptionChosenCorrect(0);
                 isTurnFinished = true;
             }
@@ -68,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
     final View.OnClickListener choiceTwoOnClickListener = new View.OnClickListener() {
         public void onClick(final View v){
-            if (! isTurnFinished){
+            if (! isTurnFinished && !isGameFinished){
                 isOptionChosenCorrect(1);
                 isTurnFinished = true;
             }
@@ -77,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
 
     final View.OnClickListener choiceThreeOnClickListener = new View.OnClickListener() {
         public void onClick(final View v){
-            if (! isTurnFinished){
+            if (!isTurnFinished && !isGameFinished){
                 isOptionChosenCorrect(2);
                 isTurnFinished = true;
             }
@@ -104,15 +105,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getOptions(){
-        threeDiffOptions.add(quotesDisplayed);
-        threeDiffOptions.add(20 + quotesDisplayed);
-        threeDiffOptions.add(40 + quotesDisplayed);
+        threeDiffOptions.add(quotesAlreadyDisplayed);
+        threeDiffOptions.add(20 + quotesAlreadyDisplayed);
+        threeDiffOptions.add(40 + quotesAlreadyDisplayed);
     }
 
     private void getThreeQuotesFromListToDisplayAsAnswer(){
-        if (quotesDisplayed == 10){
+        if (quotesAlreadyDisplayed == 10){
             //reset();
-            Toast.makeText(MainActivity.this, "more than 10 turns", Toast.LENGTH_SHORT).show();
+            isGameFinished = true;
+            notDisplayAnswers();
+            finalGameResults();
+            //Toast.makeText(MainActivity.this, "more than 10 turns", Toast.LENGTH_SHORT).show();
+            return;
         }
         getOptions();
         shuffleList(threeDiffOptions);
@@ -129,15 +134,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void displayQuoteAndAnswers(){
-        actualQuote = getOneQuoteFromList(quotesDisplayed);
+        if (isGameFinished){
+            return;
+        }
+        actualQuote = getOneQuoteFromList(quotesAlreadyDisplayed);
         quoteTextView.setText(actualQuote.phrase);
 
         getThreeQuotesFromListToDisplayAsAnswer();
         optionOneTextView.setText(optionOneQuote.game);
         optionTwoTextView.setText(optionTwoQuote.game);
         optionThreeTextView.setText(optionThreeQuote.game);
-        quotesDisplayed += 1;
-        counterTextView.setText(quotesDisplayed + "/10");
+        quotesAlreadyDisplayed += 1;
+        counterTextView.setText(quotesAlreadyDisplayed + "/10");
     }
 
     private String getSelectedQuote(int option){
@@ -171,6 +179,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         markOptionChosenAsCorrect(selectedTextView);
+        correctAnswers += 1;
     }
 
     private void markOptionChosenAsCorrect(TextView chosen){
@@ -191,6 +200,7 @@ public class MainActivity extends AppCompatActivity {
     private void checkIfGameHasFinished(){
         if (isGameFinished){
             Toast.makeText(MainActivity.this, "game ended", Toast.LENGTH_SHORT).show();
+            //return;
         } else if (isTurnFinished) {
             beginNextTurn();
         }
@@ -219,4 +229,15 @@ public class MainActivity extends AppCompatActivity {
         optionTwoTextView.setBackgroundColor(0x00000000);
         optionThreeTextView.setBackgroundColor(0x00000000);
     }
+
+    private void notDisplayAnswers(){
+        optionOneTextView.setText("");
+        optionTwoTextView.setText("");
+        optionThreeTextView.setText("");
+    }
+    private void finalGameResults(){
+        quoteTextView.setText("Correct answers:\n\n" + correctAnswers);
+    }
+
+    
 }
