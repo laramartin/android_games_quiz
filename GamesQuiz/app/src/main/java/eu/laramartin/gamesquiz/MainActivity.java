@@ -97,10 +97,9 @@ public class MainActivity extends AppCompatActivity {
     };
 
     private void shuffleList(List items){
-        // shuffle existing list and pick 10
         // seed 0 for testing
-        Collections.shuffle(items, new Random(0));
-//        Collections.shuffle(items);
+//        Collections.shuffle(items, new Random(0));
+        Collections.shuffle(items);
     }
 
     private Quote getOneQuoteFromList(int index){
@@ -115,12 +114,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void getThreeQuotesFromListToDisplayAsAnswer(){
         if (quotesAlreadyDisplayed == 10){
-            //reset();
             isGameFinished = true;
             finalGameDisplay();
-//            notDisplayAnswers();
-//            finalGameResults();
-            //Toast.makeText(MainActivity.this, "more than 10 turns", Toast.LENGTH_SHORT).show();
             return;
         }
         getOptions();
