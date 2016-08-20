@@ -84,10 +84,8 @@ public class MainActivity extends AppCompatActivity {
 
     final View.OnClickListener nextButtonOnClickListener = new View.OnClickListener() {
         public void onClick(final View v){
-            Toast.makeText(MainActivity.this, "button listensssss!!", Toast.LENGTH_SHORT).show();
             if (isTurnFinished) {
-                getThreeQuotesFromListToDisplayAsAnswer();
-                displayQuoteAndAnswers();
+                beginNextTurn();
             }
         }
     };
@@ -228,8 +226,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void beginNextTurn(){
+        resetAnswersBackgroundColor();
         makeNextButtonInvisible();
         getThreeQuotesFromListToDisplayAsAnswer();
+        displayQuoteAndAnswers();
     }
 
     private void makeNextButtonVisible(){
@@ -238,6 +238,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void makeNextButtonInvisible(){
         nextButton.setVisibility(View.INVISIBLE);
+    }
+
+    private void resetAnswersBackgroundColor(){
+        optionOneTextView.setBackgroundColor(0x00000000);
+        optionTwoTextView.setBackgroundColor(0x00000000);
+        optionThreeTextView.setBackgroundColor(0x00000000);
     }
 
 }
