@@ -57,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
         nextButton.setOnClickListener(nextButtonOnClickListener);
     }
 
-
     final View.OnClickListener choiceOneOnClickListener = new View.OnClickListener() {
         public void onClick(final View v){
             if (! isTurnFinished){
@@ -73,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
                 isOptionChosenCorrect(1);
                 isTurnFinished = true;
             }
-
         }
     };
 
@@ -93,13 +91,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
-
-//    private int randomNumber(){
-//        Random r = new Random();
-//        int length = listOfQuotes.size();
-//        int num = r.nextInt(length - 1) + 1;
-//        return num;
-//    }
 
     private void shuffleList(List items){
         // shuffle existing list and pick 10
@@ -228,5 +219,4 @@ public class MainActivity extends AppCompatActivity {
         optionTwoTextView.setBackgroundColor(0x00000000);
         optionThreeTextView.setBackgroundColor(0x00000000);
     }
-
 }
