@@ -60,22 +60,29 @@ public class MainActivity extends AppCompatActivity {
 
     final View.OnClickListener choiceOneOnClickListener = new View.OnClickListener() {
         public void onClick(final View v){
-            isOptionChosenCorrect(0);
-            isTurnFinished = true;
+            if (! isTurnFinished){
+                isOptionChosenCorrect(0);
+                isTurnFinished = true;
+            }
         }
     };
 
     final View.OnClickListener choiceTwoOnClickListener = new View.OnClickListener() {
         public void onClick(final View v){
-            isOptionChosenCorrect(1);
-            isTurnFinished = true;
+            if (! isTurnFinished){
+                isOptionChosenCorrect(1);
+                isTurnFinished = true;
+            }
+
         }
     };
 
     final View.OnClickListener choiceThreeOnClickListener = new View.OnClickListener() {
         public void onClick(final View v){
-            isOptionChosenCorrect(2);
-            isTurnFinished = true;
+            if (! isTurnFinished){
+                isOptionChosenCorrect(2);
+                isTurnFinished = true;
+            }
         }
     };
 
@@ -112,9 +119,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getThreeQuotesFromListToDisplayAsAnswer(){
-//        if (threeDiffOptions != null){
-//            threeDiffOptions.clear();
-//        }
+        if (quotesDisplayed == 10){
+            //reset();
+            Toast.makeText(MainActivity.this, "more than 10 turns", Toast.LENGTH_SHORT).show();
+        }
         getOptions();
         shuffleList(threeDiffOptions);
         optionOneQuote = getOneQuoteFromList((Integer) threeDiffOptions.get(0));
@@ -137,10 +145,6 @@ public class MainActivity extends AppCompatActivity {
         optionOneTextView.setText(optionOneQuote.game);
         optionTwoTextView.setText(optionTwoQuote.game);
         optionThreeTextView.setText(optionThreeQuote.game);
-        if (quotesDisplayed == 10){
-            //reset();
-            Toast.makeText(MainActivity.this, "more than 10 turns", Toast.LENGTH_SHORT).show();
-        }
         quotesDisplayed += 1;
         counterTextView.setText(quotesDisplayed + "/10");
     }
