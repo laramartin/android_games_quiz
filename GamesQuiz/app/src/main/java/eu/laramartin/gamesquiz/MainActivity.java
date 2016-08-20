@@ -8,8 +8,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -57,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
         optionTwoTextView.setOnClickListener(choiceTwoOnClickListener);
         optionThreeTextView.setOnClickListener(choiceThreeOnClickListener);
         nextButton.setOnClickListener(nextButtonOnClickListener);
-
     }
 
 
@@ -101,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         // shuffle existing list and pick 10
         // seed 0 for testing
         Collections.shuffle(items, new Random(0));
-        //Collections.shuffle(items);
+//        Collections.shuffle(items);
     }
 
     private Quote getOneQuoteFromList(int index){
@@ -115,9 +112,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getThreeQuotesFromListToDisplayAsAnswer(){
-        if (threeDiffOptions != null){
-            threeDiffOptions.clear();
-        }
+//        if (threeDiffOptions != null){
+//            threeDiffOptions.clear();
+//        }
         getOptions();
         shuffleList(threeDiffOptions);
         optionOneQuote = getOneQuoteFromList((Integer) threeDiffOptions.get(0));
@@ -140,9 +137,10 @@ public class MainActivity extends AppCompatActivity {
         optionOneTextView.setText(optionOneQuote.game);
         optionTwoTextView.setText(optionTwoQuote.game);
         optionThreeTextView.setText(optionThreeQuote.game);
-//        if (quotesDisplayed == 10){
-//            reset();
-//        }
+        if (quotesDisplayed == 10){
+            //reset();
+            Toast.makeText(MainActivity.this, "more than 10 turns", Toast.LENGTH_SHORT).show();
+        }
         quotesDisplayed += 1;
         counterTextView.setText(quotesDisplayed + "/10");
     }
@@ -180,28 +178,6 @@ public class MainActivity extends AppCompatActivity {
         markOptionChosenAsCorrect(selectedTextView);
     }
 
-//    private void isOptionChosenCorrect(int option){
-//        if (option == 0) {
-//            if (actualQuote.game != optionOneQuote.game) {
-//                markOptionChosenAsWrong(optionOneTextView);
-//                return;
-//            }
-//            markOptionChosenAsCorrect(optionOneTextView);
-//        } else if (option == 1){
-//            if (actualQuote.game != optionTwoQuote.game){
-//                markOptionChosenAsWrong(optionTwoTextView);
-//                return;
-//            }
-//            markOptionChosenAsCorrect(optionTwoTextView);
-//        } else if (option == 2){
-//            if (actualQuote.game != optionThreeQuote.game){
-//                markOptionChosenAsWrong(optionThreeTextView);
-//                return;
-//            }
-//            markOptionChosenAsCorrect(optionThreeTextView);
-//        }
-//    }
-
     private void markOptionChosenAsCorrect(TextView chosen){
         chosen.setBackgroundColor(Color.parseColor("#49C684"));
         makeNextButtonVisible();
@@ -226,6 +202,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void beginNextTurn(){
+        isTurnFinished = false;
+        threeDiffOptions.clear();
+        orderOptions.clear();
         resetAnswersBackgroundColor();
         makeNextButtonInvisible();
         getThreeQuotesFromListToDisplayAsAnswer();
