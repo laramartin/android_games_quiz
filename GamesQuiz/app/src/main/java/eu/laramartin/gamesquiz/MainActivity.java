@@ -167,16 +167,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void markOptionChosenAsCorrect(TextView chosen){
-        chosen.setBackgroundColor(Color.parseColor("#49C684"));
-        makeNextButtonVisible();
+        //chosen.setBackgroundColor(Color.parseColor("#49C684"));
+        chosen.setBackgroundResource(R.drawable.correct_answer_border);
+        changeNextButtonVisibility(View.VISIBLE);
         checkIfTurnHasFinished();
     }
 
     private void markOptionChosenAsWrong(TextView chosen){
-        chosen.setBackgroundColor(Color.parseColor("#F55E7A"));
+        //chosen.setBackgroundColor(Color.parseColor("#F55E7A"));
+        chosen.setBackgroundResource(R.drawable.wrong_answer_border);
         TextView correctAnswerTextView = getTextViewCorrectAnswer();
-        correctAnswerTextView.setBackgroundColor(Color.parseColor("#49C684"));
-        makeNextButtonVisible();
+        correctAnswerTextView.setBackgroundResource(R.drawable.correct_answer_border);
+        changeNextButtonVisibility(View.VISIBLE);
         checkIfTurnHasFinished();
     }
 
@@ -200,40 +202,38 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void finalGameDisplay(){
-        notDisplayCounterAndAnswers();
+       // notDisplayCounterAndAnswers();
+        changeCounterAndAnswersVisibility(View.INVISIBLE);
         finalGameResults();
         nextButton.setText(R.string.reset);
-        makeNextButtonVisible();
+        changeNextButtonVisibility(View.VISIBLE);
     }
 
     private void beginNextTurn(){
         isTurnFinished = false;
         correctAnswer = null;
         resetAnswersBackgroundColor();
-        makeNextButtonInvisible();
+        changeNextButtonVisibility(View.INVISIBLE);
         displayQuoteAndAnswers();
     }
 
-    private void makeNextButtonVisible(){
-        nextButton.setVisibility(View.VISIBLE);
-    }
-
-    private void makeNextButtonInvisible(){
-        nextButton.setVisibility(View.INVISIBLE);
+    private void changeNextButtonVisibility(int visibility){
+        nextButton.setVisibility(visibility);
     }
 
     private void resetAnswersBackgroundColor(){
-        optionOneTextView.setBackgroundColor(0x00000000);
-        optionTwoTextView.setBackgroundColor(0x00000000);
-        optionThreeTextView.setBackgroundColor(0x00000000);
+        optionOneTextView.setBackgroundResource(R.drawable.answers_border);
+        optionTwoTextView.setBackgroundResource(R.drawable.answers_border);
+        optionThreeTextView.setBackgroundResource(R.drawable.answers_border);
     }
 
-    private void notDisplayCounterAndAnswers(){
-        optionOneTextView.setText("");
-        optionTwoTextView.setText("");
-        optionThreeTextView.setText("");
-        counterTextView.setText("");
+    private void changeCounterAndAnswersVisibility(int visibility){
+        optionOneTextView.setVisibility(visibility);
+        optionTwoTextView.setVisibility(visibility);
+        optionThreeTextView.setVisibility(visibility);
+        counterTextView.setVisibility(visibility);
     }
+
     private void finalGameResults(){
         String finalGameString = this.getResources().getString(R.string.correctAnswer) +
                 "\n\n" +
@@ -251,7 +251,8 @@ public class MainActivity extends AppCompatActivity {
         shuffleList(listOfQuotes);
         displayQuoteAndAnswers();
         nextButton.setText(R.string.next);
-        makeNextButtonInvisible();
+        changeNextButtonVisibility(View.INVISIBLE);
+        changeCounterAndAnswersVisibility(View.VISIBLE);
     }
 
 }
