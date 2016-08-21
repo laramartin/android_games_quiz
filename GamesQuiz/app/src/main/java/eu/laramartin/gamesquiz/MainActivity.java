@@ -1,7 +1,5 @@
 package eu.laramartin.gamesquiz;
 
-import android.content.Context;
-import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -27,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     boolean isTurnFinished = false;
     boolean isGameFinished = false;
 
-    int quotesAlreadyDisplayed = 8;
+    int quotesAlreadyDisplayed = 0;
     int correctAnswers = 0;
 
     @Override
@@ -167,14 +165,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void markOptionChosenAsCorrect(TextView chosen){
-        //chosen.setBackgroundColor(Color.parseColor("#49C684"));
         chosen.setBackgroundResource(R.drawable.correct_answer_border);
         changeNextButtonVisibility(View.VISIBLE);
         checkIfTurnHasFinished();
     }
 
     private void markOptionChosenAsWrong(TextView chosen){
-        //chosen.setBackgroundColor(Color.parseColor("#F55E7A"));
         chosen.setBackgroundResource(R.drawable.wrong_answer_border);
         TextView correctAnswerTextView = getTextViewCorrectAnswer();
         correctAnswerTextView.setBackgroundResource(R.drawable.correct_answer_border);
@@ -254,5 +250,4 @@ public class MainActivity extends AppCompatActivity {
         changeNextButtonVisibility(View.INVISIBLE);
         changeCounterAndAnswersVisibility(View.VISIBLE);
     }
-
 }
