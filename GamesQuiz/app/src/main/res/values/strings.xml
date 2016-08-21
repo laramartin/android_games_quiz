@@ -2,4 +2,6 @@
     <string name="app_name">Games Quiz</string>
     <string name="next">Next</string>
     <string name="reset">Reset</string>
+    <string name="correctAnswer">Correct answers:</string>
+    <string name="totalTurns">/10</string>
 </resources>

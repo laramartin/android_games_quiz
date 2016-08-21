@@ -1,5 +1,6 @@
 package eu.laramartin.gamesquiz;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -105,20 +106,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private List<Quote> getThreeQuotesFromListToDisplayAsAnswer(){
-//        if (quotesAlreadyDisplayed == 10){
-//            isGameFinished = true;
-//            finalGameDisplay();
-//            return;
-//        }
         List<Quote> options = getOptions();
         shuffleList(options);
         return options;
     }
 
     private void displayQuoteAndAnswers(){
-//        if (isGameFinished){
-//            return;
-//        }
         if (quotesAlreadyDisplayed == 10){
             isGameFinished = true;
             finalGameDisplay();
@@ -132,7 +125,9 @@ public class MainActivity extends AppCompatActivity {
         optionTwoTextView.setText(answers.get(1).game);
         optionThreeTextView.setText(answers.get(2).game);
         quotesAlreadyDisplayed += 1;
-        counterTextView.setText(quotesAlreadyDisplayed + "/10");
+        String counterText = Integer.toString(quotesAlreadyDisplayed) +
+                this.getResources().getString(R.string.totalTurns);
+        counterTextView.setText(counterText);
     }
 
     private String getSelectedQuote(int option){
@@ -199,13 +194,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkIfTurnHasFinished(){
-//        if (isGameFinished){
-//            Toast.makeText(MainActivity.this, "game ended", Toast.LENGTH_SHORT).show();
-//            finalGameDisplay();
-//            //return;
-//        } else if (isTurnFinished) {
-//            beginNextTurn();
-//        }
         if (isTurnFinished) {
             beginNextTurn();
         }
@@ -223,7 +211,6 @@ public class MainActivity extends AppCompatActivity {
         correctAnswer = null;
         resetAnswersBackgroundColor();
         makeNextButtonInvisible();
-        //getThreeQuotesFromListToDisplayAsAnswer();
         displayQuoteAndAnswers();
     }
 
@@ -248,7 +235,11 @@ public class MainActivity extends AppCompatActivity {
         counterTextView.setText("");
     }
     private void finalGameResults(){
-        quoteTextView.setText("Correct answers:\n\n" + correctAnswers + "/10");
+        String finalGameString = this.getResources().getString(R.string.correctAnswer) +
+                "\n\n" +
+                String.format("%d", correctAnswers) +
+                this.getResources().getString(R.string.totalTurns);
+        quoteTextView.setText(finalGameString);
     }
 
     private void resetGame(){
@@ -258,7 +249,6 @@ public class MainActivity extends AppCompatActivity {
         correctAnswers = 0;
         quotesAlreadyDisplayed = 0;
         shuffleList(listOfQuotes);
-        getThreeQuotesFromListToDisplayAsAnswer();
         displayQuoteAndAnswers();
         nextButton.setText(R.string.next);
         makeNextButtonInvisible();
