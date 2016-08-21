@@ -14,8 +14,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     List<Quote> listOfQuotes = new ArrayList<>();
-    ArrayList threeDiffOptions = new ArrayList();
-    ArrayList orderOptions = new ArrayList();
+    Quote correctAnswer;
 
     TextView counterTextView;
     TextView quoteTextView;
@@ -23,10 +22,7 @@ public class MainActivity extends AppCompatActivity {
     TextView optionTwoTextView;
     TextView optionThreeTextView;
     Button nextButton;
-    Quote optionOneQuote;
-    Quote optionTwoQuote;
-    Quote optionThreeQuote;
-    Quote actualQuote;
+
     boolean isTurnFinished = false;
     boolean isGameFinished = false;
 
@@ -100,34 +96,23 @@ public class MainActivity extends AppCompatActivity {
         Collections.shuffle(items);
     }
 
-    private Quote getOneQuoteFromList(int index){
-        return listOfQuotes.get(index);
+    private List<Quote> getOptions(){
+        List<Quote> options = new ArrayList<>();
+        options.add(listOfQuotes.get(quotesAlreadyDisplayed));
+        options.add(listOfQuotes.get(quotesAlreadyDisplayed + 20));
+        options.add(listOfQuotes.get(quotesAlreadyDisplayed + 40));
+        return options;
     }
 
-    private void getOptions(){
-        threeDiffOptions.add(quotesAlreadyDisplayed);
-        threeDiffOptions.add(20 + quotesAlreadyDisplayed);
-        threeDiffOptions.add(40 + quotesAlreadyDisplayed);
-    }
-
-    private void getThreeQuotesFromListToDisplayAsAnswer(){
+    private List<Quote> getThreeQuotesFromListToDisplayAsAnswer(){
 //        if (quotesAlreadyDisplayed == 10){
 //            isGameFinished = true;
 //            finalGameDisplay();
 //            return;
 //        }
-        getOptions();
-        shuffleList(threeDiffOptions);
-        optionOneQuote = getOneQuoteFromList((Integer) threeDiffOptions.get(0));
-        optionTwoQuote = getOneQuoteFromList((Integer) threeDiffOptions.get(1));
-        optionThreeQuote = getOneQuoteFromList((Integer) threeDiffOptions.get(2));
-        addThreeOptionsToList(optionOneQuote, optionTwoQuote, optionThreeQuote);
-    }
-
-    private void addThreeOptionsToList(Quote one, Quote two, Quote three){
-        orderOptions.add(one);
-        orderOptions.add(two);
-        orderOptions.add(three);
+        List<Quote> options = getOptions();
+        shuffleList(options);
+        return options;
     }
 
     private void displayQuoteAndAnswers(){
@@ -139,44 +124,46 @@ public class MainActivity extends AppCompatActivity {
             finalGameDisplay();
             return;
         }
-        actualQuote = getOneQuoteFromList(quotesAlreadyDisplayed);
-        quoteTextView.setText(actualQuote.phrase);
+        correctAnswer = listOfQuotes.get(quotesAlreadyDisplayed);
+        quoteTextView.setText(correctAnswer.phrase);
 
-        getThreeQuotesFromListToDisplayAsAnswer();
-        optionOneTextView.setText(optionOneQuote.game);
-        optionTwoTextView.setText(optionTwoQuote.game);
-        optionThreeTextView.setText(optionThreeQuote.game);
+        List<Quote> answers = getThreeQuotesFromListToDisplayAsAnswer();
+        optionOneTextView.setText(answers.get(0).game);
+        optionTwoTextView.setText(answers.get(1).game);
+        optionThreeTextView.setText(answers.get(2).game);
         quotesAlreadyDisplayed += 1;
         counterTextView.setText(quotesAlreadyDisplayed + "/10");
     }
 
     private String getSelectedQuote(int option){
-        String selectedGame = null;
-        if (option == 0){
-            selectedGame = optionOneQuote.game;
-        } else if (option == 1) {
-            selectedGame = optionTwoQuote.game;
-        } else if (option == 2) {
-            selectedGame = optionThreeQuote.game;
+        switch (option) {
+            case 0:
+                return optionOneTextView.getText().toString();
+            case 1:
+                return optionTwoTextView.getText().toString();
+            case 2:
+                return optionThreeTextView.getText().toString();
+            default:
+                return "";
         }
-        return selectedGame;
     }
 
     private TextView getSelectedTextView(int option){
-        TextView selectedTextView = null;
-        if (option == 0){
-            selectedTextView = optionOneTextView;
-        } else if (option == 1){
-            selectedTextView = optionTwoTextView;
-        } else if (option == 2){
-            selectedTextView = optionThreeTextView;
+        switch (option) {
+            case 0:
+                return optionOneTextView;
+            case 1:
+                return optionTwoTextView;
+            case 2:
+                return optionThreeTextView;
+            default:
+                return null;
         }
-        return selectedTextView;
     }
 
     private void isOptionChosenCorrect(int option){
         TextView selectedTextView = getSelectedTextView(option);
-        if (actualQuote.game != getSelectedQuote(option)){
+        if (correctAnswer.game != getSelectedQuote(option)){
             markOptionChosenAsWrong(selectedTextView);
             return;
         }
@@ -192,11 +179,23 @@ public class MainActivity extends AppCompatActivity {
 
     private void markOptionChosenAsWrong(TextView chosen){
         chosen.setBackgroundColor(Color.parseColor("#F55E7A"));
-        int indexOfCorrectAnswer = orderOptions.indexOf(actualQuote);
-        TextView correctAnswerTextView = getSelectedTextView(indexOfCorrectAnswer);
+        TextView correctAnswerTextView = getTextViewCorrectAnswer();
         correctAnswerTextView.setBackgroundColor(Color.parseColor("#49C684"));
         makeNextButtonVisible();
         checkIfTurnHasFinished();
+    }
+
+    private TextView getTextViewCorrectAnswer() {
+        if (optionOneTextView.getText().toString().equals(correctAnswer.game)) {
+            return optionOneTextView;
+        }
+        if (optionTwoTextView.getText().toString().equals(correctAnswer.game)) {
+            return optionTwoTextView;
+        }
+        if (optionThreeTextView.getText().toString().equals(correctAnswer.game)) {
+            return optionThreeTextView;
+        }
+        return null;
     }
 
     private void checkIfTurnHasFinished(){
@@ -221,8 +220,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void beginNextTurn(){
         isTurnFinished = false;
-        threeDiffOptions.clear();
-        orderOptions.clear();
+        correctAnswer = null;
         resetAnswersBackgroundColor();
         makeNextButtonInvisible();
         //getThreeQuotesFromListToDisplayAsAnswer();
@@ -254,10 +252,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void resetGame(){
+        beginNextTurn();
         isTurnFinished = false;
         isGameFinished = false;
-        threeDiffOptions.clear();
-        orderOptions.clear();
         correctAnswers = 0;
         quotesAlreadyDisplayed = 0;
         shuffleList(listOfQuotes);
