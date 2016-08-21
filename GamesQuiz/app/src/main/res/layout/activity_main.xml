@@ -34,7 +34,7 @@
                 android:id="@+id/quote"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="5"
+                android:layout_weight="10"
                 android:text=""
                 tools:text="here is the quote"
                 style="@style/quote"/>
@@ -43,7 +43,7 @@
                 android:id="@+id/optionOne"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:text=""
                 tools:text="option 1"
                 style="@style/answerOptions"/>
@@ -52,7 +52,7 @@
                 android:id="@+id/optionTwo"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:text=""
                 tools:text="option 2"
                 style="@style/answerOptions"/>
@@ -61,7 +61,7 @@
                 android:id="@+id/optionThree"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:text=""
                 tools:text="option 3"
                 style="@style/answerOptions"/>
@@ -70,7 +70,7 @@
                 android:id="@+id/buttonNext"
                 android:layout_width="150dp"
                 android:layout_height="0dp"
-                android:layout_weight="2"
+                android:layout_weight="3"
                 android:text="@string/next"
                 android:visibility="invisible"
                 android:layout_gravity="center_horizontal"
