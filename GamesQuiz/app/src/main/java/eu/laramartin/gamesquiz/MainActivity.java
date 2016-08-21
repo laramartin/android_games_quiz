@@ -1,7 +1,11 @@
 package eu.laramartin.gamesquiz;
 
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -50,6 +54,30 @@ public class MainActivity extends AppCompatActivity {
         optionTwoTextView.setOnClickListener(choiceTwoOnClickListener);
         optionThreeTextView.setOnClickListener(choiceThreeOnClickListener);
         nextButton.setOnClickListener(nextButtonOnClickListener);
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_item_info:
+                infoAboutMe();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void infoAboutMe(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        builder.setView(inflater.inflate(R.layout.info_dialog, null));
+        builder.create();
+        builder.show();
     }
 
     final View.OnClickListener choiceOneOnClickListener = new View.OnClickListener() {
