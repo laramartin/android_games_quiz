@@ -1,4 +1,5 @@
-# Android Game Quiz App - extension of App made for Udacity. [Link](https://github.com/laramartin/android_games_quiz_udacity/blob/master/README.md)
+# Android Game Quiz App 
+## Extension of App made for Udacity. [Link](https://github.com/laramartin/android_games_quiz_udacity/blob/master/README.md)
 
 - Project **Quiz App**
 - [Android Basics Nanodegree at Udacity.com](https://www.udacity.com/course/android-basics-nanodegree-by-google--nd803).
