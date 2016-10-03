@@ -5,6 +5,10 @@
 - [Android Basics Nanodegree at Udacity.com](https://www.udacity.com/course/android-basics-nanodegree-by-google--nd803).
 - [Image source](https://d13yacurqjgara.cloudfront.net/users/59522/screenshots/1917541/attachments/329089/retro-pattern.png)
 
+## Android Goodies
+- Arrays.
+- Click listeners.
+
 # Description 
 - 10 Question's quizz about Video Games
 - Final score is shown after answering 10 questions
